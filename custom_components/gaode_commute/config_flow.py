@@ -195,7 +195,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_CUSTOM_NAME, default="通勤"): TextSelector(TextSelectorConfig()),
+                    vol.Required(CONF_CUSTOM_NAME, default="回家"): TextSelector(TextSelectorConfig()),
                     vol.Required(CONF_CITY): TextSelector(TextSelectorConfig()),
                     vol.Required(CONF_API_KEY): TextSelector(TextSelectorConfig()),
                     vol.Required(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): NumberSelector(
