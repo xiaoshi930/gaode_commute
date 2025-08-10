@@ -1,0 +1,12 @@
+{
+  "domain": "gaode_tracker",
+  "name": "高德通勤",
+  "documentation": "https://github.com/xiaoshi930/gaode_tracker",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": ["pypinyin"],
+  "iot_class": "cloud_polling",
+  "version": "1.0",
+  "config_flow": true,
+  "issue_tracker": "https://github.com/xiaoshi930/gaode_tracker/issues"
+}
