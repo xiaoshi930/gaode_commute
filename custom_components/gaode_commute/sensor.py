@@ -57,8 +57,6 @@ class GaodeCommuteSensor(CoordinatorEntity, SensorEntity):
             "identifiers": {(DOMAIN, entry.entry_id)},
             "name": f"高德通勤 - {custom_name}",
             "manufacturer": "高德",
-            "model": "通勤追踪器",
-            "entry_type": "service"
         }
         
         self._attr_unique_id = f"{entry.entry_id}"
