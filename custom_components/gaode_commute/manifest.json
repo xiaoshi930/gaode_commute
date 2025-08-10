@@ -6,7 +6,7 @@
   "codeowners": [],
   "requirements": ["pypinyin"],
   "iot_class": "cloud_polling",
-  "version": "1.0",
+  "version": "1.1",
   "config_flow": true,
   "issue_tracker": "https://github.com/xiaoshi930/gaode_tracker/issues"
 }
