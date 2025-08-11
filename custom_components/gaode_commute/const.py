@@ -1,6 +1,6 @@
 """Constants for the Gaode Commute Tracker integration."""
 
-DOMAIN = "gaode_tracker"
+DOMAIN = "gaode_commute"
 
 CONF_API_KEY = "api_key"
 CONF_CITY = "city"
