@@ -302,7 +302,7 @@ class GaodeDataUpdateCoordinator(DataUpdateCoordinator):
         try:
             async with self.session.get(url, params=params) as response:
                 data = await response.json()
-                self.logger.debug(f"高德API响应：{data}")
+                # self.logger.debug(f"高德API响应：{data}")
                 
                 if data.get("status") == "1":
                     route = data.get("route", {})
@@ -348,6 +348,7 @@ class GaodeDataUpdateCoordinator(DataUpdateCoordinator):
             "origin": self.origin,
             "destination": self.destination,
             "city": self.city,
+            "cityd": self.city,
             "extensions": "base",
             "strategy": 0,  # 最快捷模式
         }
@@ -355,20 +356,56 @@ class GaodeDataUpdateCoordinator(DataUpdateCoordinator):
         try:
             async with self.session.get(url, params=params) as response:
                 data = await response.json()
-                self.logger.debug(f"高德API响应：{data}")
+                # self.logger.debug(f"高德API响应：{data}")
+                
+                # 安全获取API响应数据
+                if not isinstance(data, dict):
+                    self.logger.error(f"API响应不是字典类型: {type(data)}")
+                    return {"duration": 0, "distance": 0}
                 
                 if data.get("status") == "1":
+                    # 确保route是字典类型
                     route = data.get("route", {})
+                    if not isinstance(route, dict):
+                        self.logger.error(f"路线数据不是字典类型: {type(route)}")
+                        return {"duration": 0, "distance": 0}
+                        
                     transits = route.get("transits", [])
+                    # 确保transits是列表类型
+                    if not isinstance(transits, list):
+                        self.logger.error(f"公交路线数据不是列表类型: {type(transits)}")
+                        return {"duration": 0, "distance": 0}
+                        
+                    # 直接从route中获取总距离
+                    try:
+                        total_distance = route.get("distance", 0)
+                        if isinstance(total_distance, (str, int, float)):
+                            distance = int(total_distance)
+                        else:
+                            self.logger.error(f"路线总距离格式不正确: {type(total_distance)}")
+                            distance = 0
+                    except (ValueError, TypeError) as e:
+                        self.logger.error(f"处理路线总距离时出错: {e}")
+                        distance = 0
+                        
+                    self.logger.debug(f"从API直接获取的总距离: {distance}米")
+                    
                     if transits:
                         transit = transits[0]
-                        duration = int(transit.get("duration", 0))  # 秒
-                        distance = int(transit.get("walking_distance", 0))  # 步行距离(米)
+                        # 确保transit是字典类型
+                        if not isinstance(transit, dict):
+                            self.logger.error(f"公交路线详情不是字典类型: {type(transit)}")
+                            return {"duration": 0, "distance": 0}
                         
-                        # 计算总距离 (包括交通工具距离)
-                        for segment in transit.get("segments", []):
-                            for bus in segment.get("bus", {}).get("buslines", []):
-                                distance += int(bus.get("distance", 0))
+                        # 安全地转换持续时间
+                        try:
+                            duration_value = transit.get("duration", 0)
+                            duration = int(duration_value) if isinstance(duration_value, (str, int, float)) else 0
+                        except (ValueError, TypeError):
+                            self.logger.error(f"无法转换持续时间值: {transit.get('duration')}")
+                            duration = 0
+                        
+                        self.logger.debug(f"公交路线计算结果：时间={duration}秒, 距离={distance}米")
                         
                         return {
                             "duration": duration,
