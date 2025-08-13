@@ -1,12 +1,14 @@
 {
   "domain": "gaode_commute",
   "name": "高德通勤",
-  "documentation": "https://github.com/xiaoshi930/gaode_commute",
+  "documentation": "https://github.com/xiaoshi930/gaode_commute", 
+  "issue_tracker": "https://github.com/xiaoshi930/gaode_commute/issues"
   "dependencies": [],
   "codeowners": [],
   "requirements": ["pypinyin"],
   "iot_class": "cloud_polling",
   "version": "1.2",
   "config_flow": true,
-  "issue_tracker": "https://github.com/xiaoshi930/gaode_commute/issues"
+  "after_dependencies": ["mobile_app"], 
+  "startup_after": ["mobile_app"] 
 }
