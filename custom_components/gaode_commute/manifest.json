@@ -2,7 +2,7 @@
   "domain": "gaode_commute",
   "name": "高德通勤",
   "documentation": "https://github.com/xiaoshi930/gaode_commute", 
-  "issue_tracker": "https://github.com/xiaoshi930/gaode_commute/issues"
+  "issue_tracker": "https://github.com/xiaoshi930/gaode_commute/issues",
   "dependencies": [],
   "codeowners": [],
   "requirements": ["pypinyin"],
